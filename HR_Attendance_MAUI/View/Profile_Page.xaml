@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             x:Class="HR_Attendance_MAUI.Profile_Page"
+             Title="">
+    <StackLayout>
+        <!--<Button x:Name="logOutBtn" Text="Log Out" BackgroundColor="{StaticResource PrimaryPurple}" TextColor="White" WidthRequest="150" Margin="0,10,0,0" Clicked="OnLogoutButtonClicked"/>-->
+
+        <TableView Intent="Menu">
+            <TableRoot>
+                <TableSection Title="">
+                    <ImageCell Text="Device Registration"
+                       Detail="Register your fingerprint to the system"
+                       ImageSource="fr2.jfif"
+                      Tapped="onFinSettingsTapped"
+                      DetailColor="#5D3FD3"
+                       />
+                    <ImageCell Text="Log Out"
+                       Detail="Tap to log out"
+                       ImageSource="lo2.png" 
+                       Tapped="OnLogoutButtonClicked"
+                       DetailColor="#5D3FD3"/>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+
+
+
+
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"          
+             x:Class="HR_Attendance_MAUI.Home_Page"
+             BackgroundImageSource="bhome6.png">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <!-- First Panel taking entire width -->
+            <Frame Margin="10,90,10,20" BackgroundColor="#5D3FD3" HasShadow="True">
+                <Frame BackgroundColor="#E6E6FA" Margin="0,0.5" HasShadow="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="latitudeLabel" Text="LATITUDE " HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.ColumnSpan="2"/>
+                        <Label x:Name="longitudeLabel" Text="LONGITUDE" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    </Grid>
+                </Frame>
+            </Frame>
+
+            <!-- Row of panels in the same horizontal level -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame Margin="10" HorizontalOptions="FillAndExpand" BackgroundColor="#5D3FD3" HasShadow="True">
+                    <Frame BackgroundColor="#E6E6FA" Margin="0,0.5" HasShadow="True">
+                        <StackLayout VerticalOptions="CenterAndExpand">
+                            <Label Text="IN TIME" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Label x:Name="markInLabel" Text="" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </StackLayout>
+                    </Frame>
+                </Frame>
+                <Frame BackgroundColor="#5D3FD3" Margin="10" HorizontalOptions="FillAndExpand" HasShadow="True">
+                    <Frame BackgroundColor="#E6E6FA" Margin="0,0.5" HasShadow="True">
+                        <StackLayout VerticalOptions="CenterAndExpand">
+                            <Label Text="OUT TIME" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Label x:Name="markOutLabel" Text="" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </StackLayout>
+                    </Frame>
+                </Frame>
+
+    
+            </StackLayout>
+
+            <!-- Data Entry Field taking entire width -->
+            <Entry x:Name="remarksEntry" Placeholder="Enter Remarks Here" HorizontalOptions="Center" Margin="0,50,0,0" PlaceholderColor="BLACK"/>
+
+            <!-- <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" Margin="0,50,0,70"> -->
+
+            <Button x:Name="markInBtn" Text="MARK IN" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="10,60,10,0" BackgroundColor="#5D3FD3" Clicked="OnMarkInButtonClicked"/>
+            <Button x:Name="markOutBtn" Text="MARK OUT" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="10,60,10,0" BackgroundColor="#5D3FD3" Clicked="OnMarkOutButtonClicked"/>
+            <!--</StackLayout> -->
+
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

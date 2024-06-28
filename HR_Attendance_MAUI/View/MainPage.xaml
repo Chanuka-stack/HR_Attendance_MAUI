@@ -1,0 +1,72 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HR_Attendance_MAUI.MainPage"
+             BackgroundColor="Transparent"
+             BackgroundImageSource="profile2.jfif">
+    
+    <ContentPage.Content>
+       
+        <StackLayout VerticalOptions="Center" Padding="30">
+       
+
+            <Label Text=""
+             HorizontalTextAlignment="Center"
+             VerticalTextAlignment="Center"
+             TextColor="Black"  FontSize="24"
+             FontAttributes="Bold"
+             Margin="0,20,0,30" />
+
+            <Entry x:Name="UsernameEntry"
+             Placeholder="Username"
+             PlaceholderColor="#E2DFD2"
+             BackgroundColor="Transparent"
+             TextColor="white"
+             Margin="0,0,0,15"
+             FontSize="18"
+             FontAttributes="Bold" />
+
+            <Entry x:Name="PasswordEntry"
+             Placeholder="Password"
+             IsPassword="True"
+             PlaceholderColor="#E2DFD2"
+             BackgroundColor="Transparent"
+             TextColor="white"
+             Margin="0,0,0,15"
+             FontSize="18"
+             FontAttributes="Bold" />
+
+            <Button x:Name="LoginBtn"
+              Text="LOGIN"
+              BackgroundColor="#7F5AF0"  TextColor="White"
+              FontSize="22"
+              FontAttributes="Bold"
+              CornerRadius="10"
+              Margin="0,30,0,0"
+              Padding="20,10,20,10"
+              Clicked="OnLoginButtonClicked"/>
+            <Button x:Name="LoginBtnOffline"
+              Text="LOGIN OFFLINE"
+              BackgroundColor="#7F5AF0"  TextColor="White"
+              FontSize="20"
+              FontAttributes="Bold"
+              CornerRadius="10"
+              Margin="0,30,0,0"
+              Padding="20,10,20,10"
+              Clicked="OnLoginOfflineButtonClicked"/>
+            <Label Text="Register Your Device"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               TextColor="white"
+               FontSize="16"
+                    Margin="0,20,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnRegisterTapped" />
+                    </Label.GestureRecognizers> 
+            </Label>
+           
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

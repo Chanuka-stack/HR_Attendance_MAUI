@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HR_Attendance_MAUI.FinPrintReg_Page"
+             BackgroundColor="Transparent"
+             Title="Device Registration"
+             BackgroundImageSource="devicer5.jfif">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" Padding="30">
+            <Entry x:Name="EmployeeIDEntry"
+             Placeholder="Employee ID"       
+             PlaceholderColor="#E2DFD2"
+             BackgroundColor="Transparent"
+             TextColor="white"
+             Margin="0,0,0,15"
+             FontSize="18"
+             FontAttributes="Bold" />
+
+            <Entry x:Name="PasswordEntry"
+             Placeholder="Password"
+             IsPassword="True"
+             PlaceholderColor="#E2DFD2"
+             BackgroundColor="Transparent"
+             TextColor="white"
+             Margin="0,0,0,30"
+             FontSize="18"
+             FontAttributes="Bold" />
+
+          
+            <Grid ColumnDefinitions="*,*"
+          Padding="10" >
+                
+                <Button Text="Back"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Grid.Column="0" 
+                FontSize="18"
+                Clicked="OnBackButtonClicked"/>
+                
+                <Button Text="Register"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Column="1"
+                FontSize="18"
+                Clicked="OnRegistrationButtonClicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="HR_Attendance_MAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:HR_Attendance_MAUI"
+    Shell.FlyoutBehavior="Disabled"
+    Title="HR_Attendance_MAUI">
+
+    <ShellContent
+    ContentTemplate="{DataTemplate local:MainPage}"
+    Route="MainPage"    
+    />
+    
+    <ShellContent
+ContentTemplate="{DataTemplate local:FinPrintReg_Page}"
+Route="FinPrintReg_Page"    
+/>
+
+    <TabBar>
+        
+        <Tab Title="Home" Icon="homei.png">
+            <ShellContent ContentTemplate="{DataTemplate local:Home_Page}" Route="Home_Page" >
+
+            </ShellContent>
+        </Tab>
+        <Tab Title="Settings" Icon="settingsi.png">
+            <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:Profile_Page}" Route="Profile_Page">
+
+            </ShellContent>
+        </Tab>
+    </TabBar>
+     
+
+
+</Shell>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+	<!--<base-config cleartextTrafficPermitted="true" />-->
+	<domain-config cleartextTrafficPermitted="true">
+		<domain includeSubdomains="true">10.0.2.2</domain>
+		<domain includeSubdomains="true">192.168.0.70</domain>
+		<domain includeSubdomains="true">192.168.69.187</domain>
+		<domain includeSubdomains="true">apps.emetsoft.com</domain>
+		<domain includeSubdomains="true">apps.emetsoft.com/HRA_API1</domain>
+		<domain includeSubdomains="true">apps.emetsoft.com:91/HRA_API1</domain>
+		<domain includeSubdomains="true">apps.emetsoft.com:91</domain>
+		<domain includeSubdomains="true">apps.emetsoft.com:91/HRA_API1/</domain>
+		
+	</domain-config>
+	
+</network-security-config>
