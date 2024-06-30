@@ -18,6 +18,8 @@ using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using HR_Attendance_MAUI.Data;
 using HR_Attendance_MAUI.Services;
+using Microsoft.Maui.Controls;
+//using Android.Webkit;
 
 
 
@@ -43,37 +45,37 @@ public partial class Home_Page : ContentPage
         get => loginInfo;
         set
         {
-           // loginInfo = value;
+            // loginInfo = value;
             //OnPropertyChanged();
             ShowMessage(value);
         }
     }
 
 
-    
+
     public Home_Page()
-	{ 
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = this;
 
-        logoutTimer = new System.Timers.Timer(300000); 
+        logoutTimer = new System.Timers.Timer(300000);
         logoutTimer.Start();
         logoutTimer.Elapsed += OnLogoutTimerElapsed;
         AppManager.LogoutTimer = logoutTimer;
     }
-    
+
     public async void ShowMessage(LoginInfo loginInfo)
     {
         //LocationService location = new LocationService();
         var locationData = await location.GetCurrentLocation();
         double? latitude = locationData["Latitude"];
         double? longitude = locationData["Longitude"];
-        
-        
+
+
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
 
-        if (latitude != null|| locationData.ContainsKey("Error"))
+        if (latitude != null || locationData.ContainsKey("Error"))
         {
             latitudeLabel.Text = "LATITUDE " + latitude.ToString();
             longitudeLabel.Text = "LONGITUDE " + longitude.ToString();
@@ -86,9 +88,11 @@ public partial class Home_Page : ContentPage
         username = loginInfo.Username;
         var networkAccess = Connectivity.NetworkAccess;
 
-        if (networkAccess == NetworkAccess.Internet) {
+        if (networkAccess == NetworkAccess.Internet)
+        {
             int count = _attendanceDatabaseService.GetTotalAttendanceCount();
-            if (count !=0) {
+            if (count != 0)
+            {
                 bool isSynced = await SyncAttendanceData();
 
                 if (isSynced)
@@ -100,10 +104,10 @@ public partial class Home_Page : ContentPage
                     await DisplayAlert("Error", "Failed to Sync Data", "OK");
                 }
             }
-           
+
         }
-            
-        
+
+
         AttendanceData attendanceData = await GetAttendanceData();
 
         if (attendanceData != null)
@@ -139,8 +143,8 @@ public partial class Home_Page : ContentPage
                 markOutBtn.IsVisible = true;
                 latIn = LatIn;
                 lonIn = LonIn;
-               // latOut = latitude.ToString();
-               // lonOut = longitude.ToString();
+                // latOut = latitude.ToString();
+                // lonOut = longitude.ToString();
             }
             else
             {
@@ -150,7 +154,8 @@ public partial class Home_Page : ContentPage
             }
 
         }
-        else {
+        else
+        {
             markInBtn.IsEnabled = true;
             markInBtn.IsVisible = true;
             markOutBtn.IsVisible = false;
@@ -169,14 +174,17 @@ public partial class Home_Page : ContentPage
         currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
         //string currentDate = currentTime.ToString("yyyy-MM-dd");
         string formattedTime = ModifyText(formattedTime1);
-        string currentDate = currentTime.ToString();
+        //string currentDate = currentTime.ToString();
+        string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        //currentDate = currentDate + ".000";
         string remarks = remarksEntry.Text;
 
-        if (remarks == null) {
+        if (remarks == null)
+        {
             remarks = "";
         }
         markInBtn.IsEnabled = false;
-        
+
         var attendanceData = new AttendanceData
         {
             inTimeDate = currentDate,
@@ -185,7 +193,7 @@ public partial class Home_Page : ContentPage
             outTime = "",
             employee_ID = username,
             empAttendenceDescription = remarks,
-            lonIn =lonIn,
+            lonIn = lonIn,
             latIn = latIn,
             lonOut = "",
             latOut = ""
@@ -205,7 +213,7 @@ public partial class Home_Page : ContentPage
         }
         else
         {
-            
+
         }
     }
 
@@ -216,8 +224,9 @@ public partial class Home_Page : ContentPage
         string formattedTime1 = currentTime.ToString("HH:mm");
         currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
 
-        string formattedTime = ModifyText(formattedTime1);        
-        string currentDate = currentTime.ToString();
+        string formattedTime = ModifyText(formattedTime1);
+        //string currentDate = currentTime.ToString();
+        string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
         string remarks = remarksEntry.Text;
         if (remarks == null)
         {
@@ -225,7 +234,7 @@ public partial class Home_Page : ContentPage
         }
         markOutBtn.IsEnabled = false;
         var locationData = await location.GetCurrentLocation();
-        
+
 
         var attendanceData = new AttendanceData
         {
@@ -235,8 +244,8 @@ public partial class Home_Page : ContentPage
             outTime = formattedTime,
             employee_ID = username,
             empAttendenceDescription = remarks,
-            latIn =latIn,
-            lonIn =lonIn,
+            latIn = latIn,
+            lonIn = lonIn,
             latOut = locationData["Latitude"].ToString(),
             lonOut = locationData["Longitude"].ToString()
         };
@@ -245,15 +254,15 @@ public partial class Home_Page : ContentPage
 
         if (attendanceMarked)
         {
-            markOutLabel.Text =  formattedTime;
+            markOutLabel.Text = formattedTime;
             await DisplayAlert("Success", "Attendance is Marked Successfully", "OK");
             markInBtn.IsVisible = false;
             markOutBtn.IsVisible = false;
-            
+
         }
         else
         {
-           
+
         }
     }
 
@@ -276,9 +285,9 @@ public partial class Home_Page : ContentPage
         var networkAccess = Connectivity.NetworkAccess;
         if (networkAccess == NetworkAccess.Internet)
         {
-            
-            var markInData = new { InTimeDate = InTimeDate, InTime = InTime, OutTimeDate = OutTimeDate, OutTime = OutTime, Employee_ID = Employee_ID, EmpAttendenceDescription = EmpAttendenceDescription, LatIn=LatIn, LonIn =LonIn, LatOut=LatOut, LonOut=LonOut };
-            
+
+            var markInData = new { InTimeDate = InTimeDate, InTime = InTime, OutTimeDate = OutTimeDate, OutTime = OutTime, Employee_ID = Employee_ID, EmpAttendenceDescription = EmpAttendenceDescription, LatIn = LatIn, LonIn = LonIn, LatOut = LatOut, LonOut = LonOut };
+
             HttpClient client;
             client = HttpClientFactory.CreateHttpClient();
             var response = await client.PostAsJsonAsync("api/Attendance/Store", markInData);
@@ -286,8 +295,8 @@ public partial class Home_Page : ContentPage
             if (response.IsSuccessStatusCode)
             {
                 TodaySyncedAttendance empAttendanceData = new TodaySyncedAttendance();
-                
-               
+
+
 
                 empAttendanceData.inTimeDate = InTimeDate;
                 empAttendanceData.inTime = InTime;
@@ -297,18 +306,19 @@ public partial class Home_Page : ContentPage
                 empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
                 empAttendanceData.latIn = latIn;
                 empAttendanceData.lonIn = lonIn;
-                empAttendanceData.latOut = latOut;
-                empAttendanceData.lonOut = lonOut;
+                empAttendanceData.latOut = LatOut;
+                empAttendanceData.lonOut = LonOut;
 
 
                 if (OutTime == null || OutTime == "")
                 {
                     _attendanceDatabaseService.InsertTodaySyncedAttendance(empAttendanceData);
                 }
-                else {
+                else
+                {
                     _attendanceDatabaseService.UpdateSyncedAttendanceByDateOffline(empAttendanceData);
                 }
-               
+
                 return true;
             }
             else
@@ -317,7 +327,8 @@ public partial class Home_Page : ContentPage
             }
 
         }
-        else {
+        else
+        {
             AttendanceData empAttendanceData = new AttendanceData();
 
             empAttendanceData.inTimeDate = InTimeDate;
@@ -329,8 +340,8 @@ public partial class Home_Page : ContentPage
             empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
             empAttendanceData.latIn = latIn;
             empAttendanceData.lonIn = lonIn;
-            empAttendanceData.latOut = latOut;
-            empAttendanceData.lonOut = lonOut;
+            empAttendanceData.latOut = LatIn;
+            empAttendanceData.lonOut = LatOut;
 
 
 
@@ -345,8 +356,8 @@ public partial class Home_Page : ContentPage
             _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
             return true;
         }
-        
-}
+
+    }
 
 
     private async Task<AttendanceData> GetAttendanceData()
@@ -362,10 +373,11 @@ public partial class Home_Page : ContentPage
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
 
-      
+
         var networkAccess = Connectivity.NetworkAccess;
-       
-        if (networkAccess == NetworkAccess.Internet) {
+
+        if (networkAccess == NetworkAccess.Internet)
+        {
 
             HttpClient client;
             client = HttpClientFactory.CreateHttpClient();
@@ -388,57 +400,83 @@ public partial class Home_Page : ContentPage
                 return null;
             }
         }
-        else {
-            AttendanceData empAttendanceData = new AttendanceData(); 
+        else
+        {
+            AttendanceData empAttendanceData = new AttendanceData();
             if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
             {
                 empAttendanceData = _attendanceDatabaseService.GetAttendanceByDate(currentDate);
             }
-            else {
+            else
+            {
                 empAttendanceData = _attendanceDatabaseService.GetTodayAttendnaceOffline(currentDate);
             }
 
-            
-           // AttendanceData attendanceData =
+
+            // AttendanceData attendanceData =
             if (empAttendanceData != null)
             {
                 return empAttendanceData;
             }
-            else {
+            else
+            {
                 return null;
             }
-            
+
         }
 
     }
 
     private async Task<bool> SyncAttendanceData()
     {
+
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
         List<AttendanceData> attenadanceDataList = _attendanceDatabaseService.GetAllAttendances();
 
-        DateTimeOffset currentTime = DateTimeOffset.Now;
-        string currentDate = currentTime.ToString("yyyy-MM-dd");
+        foreach (AttendanceData attendanceData in attenadanceDataList)
+        {
+            string inTimeDate = attendanceData.inTimeDate;
+            string inTimeDate1 = attendanceData.inTime;
+            string inTimeDate2 = attendanceData.lonOut;
+            string inTimeDate3 = attendanceData.latOut;
+        }
+
+        DateTimeOffset currentTime1 = DateTimeOffset.Now;
+        DateTime currentTime = currentTime1.DateTime;
+        //string formattedTime1 = currentTime.ToString("HH:mm");
+        currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
+        string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
         HttpClient client;
-        client = HttpClientFactory.CreateHttpClient();
-
-        var response = await client.PostAsJsonAsync("api/Attendance/StoreList", attenadanceDataList);
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            //_attendanceDatabaseService.DeleteAllExceptCurrentDate(currentDate);
-            _attendanceDatabaseService.StoreTodaysRecordsAndDeleteAll(currentDate);
+            client = HttpClientFactory.CreateHttpClient();
+
+            var response = await client.PostAsJsonAsync("api/Attendance/StoreList", attenadanceDataList);
+
+            if (response.IsSuccessStatusCode)
+            {
+                //_attendanceDatabaseService.DeleteAllExceptCurrentDate(currentDate);
+                _attendanceDatabaseService.StoreTodaysRecordsAndDeleteAll(currentDate);
 
 
-            return true;
+                return true;
 
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch (Exception ex)
         {
+            await DisplayAlert("Error", ex.Message, "OK");
             return false;
         }
+
+
+
     }
 
     private void OnLogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -470,7 +508,7 @@ public partial class Home_Page : ContentPage
             throw new ArgumentNullException(nameof(text));
         }
 
-        
+
         string filteredText = Regex.Replace(text, "[APM]", "");
 
         return filteredText.Replace(':', '.');
