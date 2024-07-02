@@ -44,7 +44,7 @@
               Margin="0,30,0,0"
               Padding="20,10,20,10"
               Clicked="OnLoginButtonClicked"/>
-            <Button x:Name="LoginBtnOffline"
+            <!-- <Button x:Name="LoginBtnOffline"
               Text="LOGIN OFFLINE"
               BackgroundColor="#7F5AF0"  TextColor="White"
               FontSize="20"
@@ -52,7 +52,7 @@
               CornerRadius="10"
               Margin="0,30,0,0"
               Padding="20,10,20,10"
-              Clicked="OnLoginOfflineButtonClicked"/>
+              Clicked="OnLoginOfflineButtonClicked"/> -->
             <Label Text="Register Your Device"
                HorizontalOptions="Center"
                VerticalOptions="Center"

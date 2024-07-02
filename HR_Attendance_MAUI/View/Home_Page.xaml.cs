@@ -86,7 +86,7 @@ public partial class Home_Page : ContentPage
             longitudeLabel.Text = "Longitude is not available";
         }
         username = loginInfo.Username;
-        var networkAccess = Connectivity.NetworkAccess;
+        /*var networkAccess = Connectivity.NetworkAccess;
 
         if (networkAccess == NetworkAccess.Internet)
         {
@@ -105,7 +105,7 @@ public partial class Home_Page : ContentPage
                 }
             }
 
-        }
+        }*/
 
 
         AttendanceData attendanceData = await GetAttendanceData();
@@ -282,7 +282,7 @@ public partial class Home_Page : ContentPage
         string LonOut = attendanceData.lonOut;
         string LatOut = attendanceData.latOut;
 
-        var networkAccess = Connectivity.NetworkAccess;
+        /*var networkAccess = Connectivity.NetworkAccess;
         if (networkAccess == NetworkAccess.Internet)
         {
 
@@ -345,17 +345,44 @@ public partial class Home_Page : ContentPage
 
 
 
-            /*if (OutTime == null || OutTime == "")
-            {         
-                _attendanceDatabaseService.InsertAttendance(empAttendanceData);
-            }
-            else
-            {
-                _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
-            }*/
+            //if (OutTime == null || OutTime == "")
+            //{         
+            //    _attendanceDatabaseService.InsertAttendance(empAttendanceData);
+            //}
+            //else
+            //{
+            //    _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
+            //}
             _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
             return true;
+        }*/
+
+        AttendanceData empAttendanceData = new AttendanceData();
+
+        empAttendanceData.inTimeDate = InTimeDate;
+        empAttendanceData.inTime = InTime;
+        empAttendanceData.outTimeDate = OutTimeDate;
+        empAttendanceData.outTime = OutTime;
+        //empAttendanceData.employee_ID = Employee_ID;
+        empAttendanceData.employee_ID = GetId();
+        empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
+        empAttendanceData.latIn = latIn;
+        empAttendanceData.lonIn = lonIn;
+        empAttendanceData.latOut = LatIn;
+        empAttendanceData.lonOut = LatOut;
+
+
+
+        /*if (OutTime == null || OutTime == "")
+        {
+            _attendanceDatabaseService.InsertAttendance(empAttendanceData);
         }
+        else
+        {
+            _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
+        }*/
+        _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
+        return true;
 
     }
 
@@ -374,7 +401,7 @@ public partial class Home_Page : ContentPage
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
 
 
-        var networkAccess = Connectivity.NetworkAccess;
+        /*var networkAccess = Connectivity.NetworkAccess;
 
         if (networkAccess == NetworkAccess.Internet)
         {
@@ -423,6 +450,27 @@ public partial class Home_Page : ContentPage
                 return null;
             }
 
+        }*/
+
+        AttendanceData empAttendanceData = new AttendanceData();
+        if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
+        {
+            empAttendanceData = _attendanceDatabaseService.GetAttendanceByDate(currentDate);
+        }
+        else
+        {
+            empAttendanceData = _attendanceDatabaseService.GetTodayAttendnaceOffline(currentDate);
+        }
+
+
+        // AttendanceData attendanceData =
+        if (empAttendanceData != null)
+        {
+            return empAttendanceData;
+        }
+        else
+        {
+            return null;
         }
 
     }

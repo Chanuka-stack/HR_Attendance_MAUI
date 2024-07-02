@@ -1,6 +1,8 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using HR_Attendance_MAUI.Platforms.Android.Services;
 using Plugin.Fingerprint;
 
 namespace HR_Attendance_MAUI
@@ -12,6 +14,13 @@ namespace HR_Attendance_MAUI
         {
             base.OnPostCreate(savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(()=>this);
+        }
+
+        //Added 7/1/2024
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            StartService(new Intent(this, typeof(AndroidBackgroundService)));
         }
     }
 }
