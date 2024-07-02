@@ -7,6 +7,7 @@ namespace HR_Attendance_MAUI
         private readonly IBackgroundService _backgroundService;
 
         public App(IBackgroundService backgroundService)
+        //public App(IBackgroundService backgroundService)
         {
 
             InitializeComponent();
@@ -18,7 +19,7 @@ namespace HR_Attendance_MAUI
             _backgroundService.Start();
         }
 
-        protected override void OnStart()
+       /* protected override void OnStart()
         {
             base.OnStart();
             _backgroundService.Start();
@@ -34,6 +35,6 @@ namespace HR_Attendance_MAUI
         {
             base.OnResume();
             _backgroundService.Start();
-        }
+        }*/
     }
 }

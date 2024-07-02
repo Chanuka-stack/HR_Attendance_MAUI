@@ -91,6 +91,7 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
                     Stop();
                     await Task.Delay(_delay);
                     Start();
+
                 }
 
                 

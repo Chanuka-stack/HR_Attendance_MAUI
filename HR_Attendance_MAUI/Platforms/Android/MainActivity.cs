@@ -17,10 +17,10 @@ namespace HR_Attendance_MAUI
         }
 
         //Added 7/1/2024
-        protected override void OnCreate(Bundle savedInstanceState)
+        /*protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             StartService(new Intent(this, typeof(AndroidBackgroundService)));
-        }
+        }*/
     }
 }
