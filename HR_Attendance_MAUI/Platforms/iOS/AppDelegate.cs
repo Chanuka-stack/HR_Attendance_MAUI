@@ -1,33 +1,29 @@
 ﻿using Foundation;
 using Microsoft.Extensions.Logging;
 using UIKit;
+using HR_Attendance_MAUI.Services;
+
 
 namespace HR_Attendance_MAUI
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
     {
+        private NSTimer fetchTimer;
+
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-
-        //Added 7-1-2024
-        private readonly ILogger<AppDelegate> _logger;
-
-        public AppDelegate(ILogger<AppDelegate> logger)
-        {
-            _logger = logger;
-        }
-
+        //Added
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-            return base.FinishedLaunching(application, launchOptions);
+            return true;
         }
 
-        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+       /* public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
-            _logger.LogInformation("Background fetch is performing work.");
-            // Your background task logic here
+            var backgroundService = MauiApplication.Current.Services.GetService<IBackgroundService>();
+            backgroundService?.Start();
             completionHandler(UIBackgroundFetchResult.NewData);
-        }
+        }*/
     }
 }

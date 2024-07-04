@@ -18,11 +18,10 @@ namespace HR_Attendance_MAUI.Services
                 client.BaseAddress = new Uri(DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5026" : "http://localhost:5026");
             #else
                 client = new HttpClient();
-                client.BaseAddress = new Uri("http://apps.emetsoft.com:91/HRA_APIv2/");
+                client.BaseAddress = new Uri("http://apps.emetsoft.com:91/HRA_APIv3/");
             #endif
 
-            //client.BaseAddress = new Uri("http://apps.emetsoft.com:91/HRA_APIv2/");
-            //client.BaseAddress = new Uri(DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5026" : "http://localhost:5026");
+            
             return client;
         }
     }

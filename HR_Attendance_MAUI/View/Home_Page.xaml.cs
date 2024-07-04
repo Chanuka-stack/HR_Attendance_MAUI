@@ -68,8 +68,10 @@ public partial class Home_Page : ContentPage
     {
         //LocationService location = new LocationService();
         var locationData = await location.GetCurrentLocation();
-        double? latitude = locationData["Latitude"];
-        double? longitude = locationData["Longitude"];
+        //double? latitude = locationData["Latitude"];
+        //double? longitude = locationData["Longitude"];
+        double? latitude = loginInfo.Latitude;
+        double? longitude = loginInfo.Longitude;
 
 
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
@@ -233,7 +235,7 @@ public partial class Home_Page : ContentPage
             remarks = "";
         }
         markOutBtn.IsEnabled = false;
-        var locationData = await location.GetCurrentLocation();
+        //var locationData = await location.GetCurrentLocation();
 
 
         var attendanceData = new AttendanceData
@@ -246,8 +248,10 @@ public partial class Home_Page : ContentPage
             empAttendenceDescription = remarks,
             latIn = latIn,
             lonIn = lonIn,
-            latOut = locationData["Latitude"].ToString(),
-            lonOut = locationData["Longitude"].ToString()
+            //latOut = locationData["Latitude"].ToString(),
+            //lonOut = locationData["Longitude"].ToString()
+            latOut = latitudeLabel.Text,
+            lonOut = longitudeLabel.Text
         };
 
         bool attendanceMarked = await MarkInAttendanceAsync(attendanceData);

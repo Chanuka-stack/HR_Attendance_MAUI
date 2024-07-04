@@ -15,26 +15,29 @@ namespace HR_Attendance_MAUI
             Application.Current.UserAppTheme = AppTheme.Light;
             MainPage = new AppShell();
 
+
+      
             _backgroundService = backgroundService;
             _backgroundService.Start();
+       
         }
 
-       /* protected override void OnStart()
-        {
-            base.OnStart();
-            _backgroundService.Start();
-        }
+        /* protected override void OnStart()
+         {
+             base.OnStart();
+             _backgroundService.Start();
+         }
 
-        protected override void OnSleep()
-        {
-            base.OnSleep();
-            _backgroundService.Stop();
-        }
+         protected override void OnSleep()
+         {
+             base.OnSleep();
+             _backgroundService.Stop();
+         }
 
-        protected override void OnResume()
-        {
-            base.OnResume();
-            _backgroundService.Start();
-        }*/
+         protected override void OnResume()
+         {
+             base.OnResume();
+             _backgroundService.Start();
+         }*/
     }
 }
