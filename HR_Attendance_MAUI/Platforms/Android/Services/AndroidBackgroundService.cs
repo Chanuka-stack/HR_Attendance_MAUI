@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
+//using Microsoft.Extensions.DependencyInjection.Abstractions;
+using Android.Content.PM;
 using Android.OS;
-using System.Threading;
-using Microsoft.Extensions.Logging;
-using HR_Attendance_MAUI.Services;
+using Android.Runtime;
+using AndroidX.Core.App;
 using HR_Attendance_MAUI.Data;
 using HR_Attendance_MAUI.Model;
+using HR_Attendance_MAUI.Services;
 using System.Net.Http.Json;
-using System.Text.Json;
-//using Microsoft.Extensions.DependencyInjection.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 
-
+[assembly: Dependency(typeof(ForegroundService))]
 namespace HR_Attendance_MAUI.Platforms.Android.Services
 {
     [Service]
     public class AndroidBackgroundService : Service, IBackgroundService
     {
+        public static bool IsForegroundServiceRunning;
         private Timer _timer;
         // private ILogger<AndroidBackgroundService> _logger;
         private readonly TimeSpan _delay = TimeSpan.FromMinutes(5);
@@ -38,7 +33,8 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
 
         public override IBinder OnBind(Intent intent)
         {
-            return null;
+            //return null;
+            throw new NotImplementedException();
         }
 
         public void Start()
@@ -46,79 +42,84 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
             //_logger.LogInformation("Background service starting.");
             //_timer = new Timer(DoWork, null, 0, 600000); // Run every 10 seconds
 
-         
-                _timer = new Timer(DoWork, null, 0, Timeout.Infinite);
-            
-            
+
+            //_timer = new Timer(DoWork, null, 0, Timeout.Infinite);
+            var intent = new Intent(Platform.AppContext, typeof(AndroidBackgroundService));
+            Platform.AppContext.StartForegroundService(intent);
+            //StartService(new Intent(this, typeof(AndroidBackgroundService)));
+
         }
 
         public void Stop()
         {
             //_logger.LogInformation("Background service stopping.");
-            _timer?.Dispose();
+            //_timer?.Dispose();
+            var intent = new Intent(Platform.AppContext, typeof(AndroidBackgroundService));
+            Platform.AppContext.StopService(intent);
         }
 
-        private async void DoWork(object state)
-        {
-            //_logger.LogInformation("Background service is doing work.");
-            // Your background task logic here
-            var networkAccess = Connectivity.NetworkAccess;
-            if (networkAccess == NetworkAccess.Internet) {
-                var dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
-                _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
-                List<AttendanceData> attenadanceDataList = _attendanceDatabaseService.GetAllAttendances();
+        
 
-                if (attenadanceDataList.Count != 0)
-                {
-                    bool result = await SyncAttendanceData();
-                    if (result == true)
-                    {
-                        //_logger.LogInformation("Synced Successfully");
-                        Stop();
-                        await Task.Delay(_delay);
-                        Start();
-                    }
-                    else
-                    {
-                        //_logger.LogInformation("Not Synced Successfully");
-                        Stop();
-                        await Task.Delay(_delay);
-                        Start();
-                    }
-                    
-                }
-                else {
-                    Stop();
-                    await Task.Delay(_delay);
-                    Start();
-
-                }
-
-                
-            }
-                
-
-
-        }
-
+        [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
 
-            /*if (_logger == null)
+            Task.Run(async () =>
             {
-                _logger = (ILogger<AndroidBackgroundService>)App.Current.Services.GetService(typeof(ILogger<AndroidBackgroundService>));
-            }*/
+                while (IsForegroundServiceRunning)
+                {
+                    var networkAccess = Connectivity.NetworkAccess;
+                    if (networkAccess == NetworkAccess.Internet)
+                    {
+                        bool result = await SyncAttendanceData();
+                    }
+                    else { 
+                    
+                    }
+                        System.Diagnostics.Debug.WriteLine("foreground Service is Running");
+                    Thread.Sleep(2000);
+                }
+            });
 
-            Start();
-            return StartCommandResult.Sticky;
+            string channelID = "ForeGroundServiceChannel";
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            if (OperatingSystem.IsAndroidVersionAtLeast(26))
+            {
+                var notfificationChannel = new NotificationChannel(channelID, channelID, NotificationImportance.Low);
+                notificationManager.CreateNotificationChannel(notfificationChannel);
+            }
+
+            var notificationBuilder = new NotificationCompat.Builder(this, channelID)
+                                         .SetContentTitle("ForeGroundServiceStarted")
+                                         .SetSmallIcon(Resource.Drawable.bhome)
+                                         .SetContentText("Service Running in Foreground")
+                                         .SetPriority(1)
+                                         .SetOngoing(true)
+                                         .SetChannelId(channelID)
+                                         .SetAutoCancel(true);
+
+
+            StartForeground(1001, notificationBuilder.Build());
+            return base.OnStartCommand(intent, flags, startId);
         }
 
+        public override void OnCreate()
+        {
+            base.OnCreate();
+            IsForegroundServiceRunning = true;
+        }
         public override void OnDestroy()
         {
-            Stop();
             base.OnDestroy();
+            IsForegroundServiceRunning = false;
         }
 
+        public bool IsForeGroundServiceRunning()
+        {
+            return IsForegroundServiceRunning;
+        }
+      
+        //private async Task<bool> SyncAttendanceData()
         private async Task<bool> SyncAttendanceData()
         {
 
@@ -126,7 +127,8 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
             _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
             List<AttendanceData> attenadanceDataList = _attendanceDatabaseService.GetAllAttendances();
 
-            if (attenadanceDataList.Count == 0) {
+            if (attenadanceDataList.Count == 0)
+            {
                 return false;
             }
 

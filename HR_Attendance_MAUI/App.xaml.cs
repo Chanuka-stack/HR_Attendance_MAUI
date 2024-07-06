@@ -18,7 +18,10 @@ namespace HR_Attendance_MAUI
 
       
             _backgroundService = backgroundService;
-            _backgroundService.Start();
+            if (!_backgroundService.IsForeGroundServiceRunning()) {
+                _backgroundService.Start();
+            }
+           
        
         }
 

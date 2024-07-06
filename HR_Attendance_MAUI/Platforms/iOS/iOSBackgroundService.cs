@@ -14,7 +14,9 @@ using System.Text.Json;
 namespace HR_Attendance_MAUI.Platforms.iOS
 {
     public class iOSBackgroundService : IBackgroundService
+
     {
+        public static bool IsForegroundServiceRunning;
         private CancellationTokenSource _cts;
         private AttendanceDatabaseService2 _attendanceDatabaseService;
         public void Start()
@@ -39,6 +41,11 @@ namespace HR_Attendance_MAUI.Platforms.iOS
             });
         }
 
+
+        public bool IsForeGroundServiceRunning()
+        {
+            return IsForegroundServiceRunning;
+        }
         public void Stop()
         {
             _cts?.Cancel();

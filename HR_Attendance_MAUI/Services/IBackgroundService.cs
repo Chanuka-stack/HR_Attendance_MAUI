@@ -10,5 +10,7 @@ namespace HR_Attendance_MAUI.Services
     {
         void Start();
         void Stop();
+
+        bool IsForeGroundServiceRunning();
     }
 }

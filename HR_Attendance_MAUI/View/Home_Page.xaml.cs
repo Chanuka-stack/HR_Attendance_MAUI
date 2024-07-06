@@ -33,10 +33,9 @@ public partial class Home_Page : ContentPage
     LoginInfo loginInfo;
     string username;
     private System.Timers.Timer logoutTimer;
-    string? latIn;
-    string? lonIn;
-    string? latOut;
-    string? lonOut;
+    string? lat;
+    string? lon;
+
     private AttendanceDatabaseService2 _attendanceDatabaseService;
     LocationService location = new LocationService();
 
@@ -81,6 +80,8 @@ public partial class Home_Page : ContentPage
         {
             latitudeLabel.Text = "LATITUDE " + latitude.ToString();
             longitudeLabel.Text = "LONGITUDE " + longitude.ToString();
+            lat = latitude.ToString();
+            lon = longitude.ToString();
         }
         else
         {
@@ -133,18 +134,14 @@ public partial class Home_Page : ContentPage
                 markInBtn.IsEnabled = true;
                 markInBtn.IsVisible = true;
                 markOutBtn.IsVisible = false;
-                latIn = latitude.ToString();
-                lonIn = longitude.ToString();
-                latOut = "";
-                lonOut = "";
+
 
             }
             else if ((outTime == null || outTime == "") && (inTime != null || inTime != ""))
             {
                 markInBtn.IsVisible = false;
                 markOutBtn.IsVisible = true;
-                latIn = LatIn;
-                lonIn = LonIn;
+
                 // latOut = latitude.ToString();
                 // lonOut = longitude.ToString();
             }
@@ -161,10 +158,7 @@ public partial class Home_Page : ContentPage
             markInBtn.IsEnabled = true;
             markInBtn.IsVisible = true;
             markOutBtn.IsVisible = false;
-            latIn = latitude.ToString();
-            lonIn = longitude.ToString();
-            latOut = "";
-            lonOut = "";
+
         }
 
     }
@@ -195,8 +189,8 @@ public partial class Home_Page : ContentPage
             outTime = "",
             employee_ID = username,
             empAttendenceDescription = remarks,
-            lonIn = lonIn,
-            latIn = latIn,
+            lonIn = lon,
+            latIn = lat,
             lonOut = "",
             latOut = ""
         };
@@ -246,12 +240,12 @@ public partial class Home_Page : ContentPage
             outTime = formattedTime,
             employee_ID = username,
             empAttendenceDescription = remarks,
-            latIn = latIn,
-            lonIn = lonIn,
+            latIn = lat,
+            lonIn = lon,
             //latOut = locationData["Latitude"].ToString(),
             //lonOut = locationData["Longitude"].ToString()
-            latOut = latitudeLabel.Text,
-            lonOut = longitudeLabel.Text
+            latOut = lat,
+            lonOut = lon
         };
 
         bool attendanceMarked = await MarkInAttendanceAsync(attendanceData);
@@ -370,9 +364,9 @@ public partial class Home_Page : ContentPage
         //empAttendanceData.employee_ID = Employee_ID;
         empAttendanceData.employee_ID = GetId();
         empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
-        empAttendanceData.latIn = latIn;
-        empAttendanceData.lonIn = lonIn;
-        empAttendanceData.latOut = LatIn;
+        empAttendanceData.latIn = LatIn;
+        empAttendanceData.lonIn = LonIn;
+        empAttendanceData.latOut = LatOut;
         empAttendanceData.lonOut = LatOut;
 
 
