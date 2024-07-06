@@ -367,7 +367,7 @@ public partial class Home_Page : ContentPage
         empAttendanceData.latIn = LatIn;
         empAttendanceData.lonIn = LonIn;
         empAttendanceData.latOut = LatOut;
-        empAttendanceData.lonOut = LatOut;
+        empAttendanceData.lonOut = LonOut;
 
 
 

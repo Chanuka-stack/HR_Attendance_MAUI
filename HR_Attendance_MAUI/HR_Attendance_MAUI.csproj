@@ -104,6 +104,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Platforms\iOS\Services\**" />
+	  <Compile Remove="Platforms\iOS\Services\**" />
+	  <EmbeddedResource Remove="Platforms\iOS\Services\**" />
+	  <MauiCss Remove="Platforms\iOS\Services\**" />
+	  <MauiXaml Remove="Platforms\iOS\Services\**" />
+	  <None Remove="Platforms\iOS\Services\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	  <None Remove="Resources\AppIcon\appicon.svg" />
 	  <None Remove="Resources\Images\bhome.jfif" />
@@ -156,10 +165,6 @@
 	  <MauiXaml Update="View\Profile_Page.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Platforms\iOS\Services\" />
 	</ItemGroup>
 
 </Project>

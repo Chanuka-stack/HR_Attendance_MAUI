@@ -9,6 +9,8 @@ using HR_Attendance_MAUI.Data;
 using HR_Attendance_MAUI.Model;
 using HR_Attendance_MAUI.Services;
 using System.Net.Http.Json;
+using Microsoft.Maui.Controls;
+
 
 [assembly: Dependency(typeof(ForegroundService))]
 namespace HR_Attendance_MAUI.Platforms.Android.Services
@@ -77,7 +79,7 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
                     
                     }
                         System.Diagnostics.Debug.WriteLine("foreground Service is Running");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(200000);
                 }
             });
 
@@ -169,7 +171,8 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
             }
             catch (Exception ex)
             {
-                //await DisplayAlert("Error", ex.Message, "OK");
+                string a = ex.Message;
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                 return false;
             }
 
