@@ -90,7 +90,7 @@
 		<!-- App Icon -->
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\trace.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -120,6 +120,7 @@
 	  <None Remove="Resources\Images\bhome3.jfif" />
 	  <None Remove="Resources\Images\bhome4.jfif" />
 	  <None Remove="Resources\Images\bhome6.png" />
+	  <None Remove="Resources\Images\bhome7.png" />
 	  <None Remove="Resources\Images\devicer.jfif" />
 	  <None Remove="Resources\Images\devicer2.jfif" />
 	  <None Remove="Resources\Images\devicer3.jfif" />

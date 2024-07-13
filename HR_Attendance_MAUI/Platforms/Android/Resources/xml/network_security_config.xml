@@ -10,7 +10,7 @@
 		<domain includeSubdomains="true">apps.emetsoft.com:91/HRA_API1</domain>
 		<domain includeSubdomains="true">apps.emetsoft.com:91</domain>
 		<domain includeSubdomains="true">apps.emetsoft.com:91/HRA_API1/</domain>
-		<domain includeSubdomains="true">192.168.47.187</domain>
+		<domain includeSubdomains="true">192.168.144.187</domain>
 		
 	</domain-config>
 	

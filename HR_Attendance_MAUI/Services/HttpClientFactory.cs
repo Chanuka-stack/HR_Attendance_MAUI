@@ -12,12 +12,12 @@ namespace HR_Attendance_MAUI.Services
         {
             HttpClient client;
 
-            #if DEBUG
+#if DEBUG
                 HttpsClientHandlerService handler = new HttpsClientHandlerService();
                 client = new HttpClient(handler.GetPlatformMessageHandler());
-                client.BaseAddress = new Uri(DeviceInfo.Platform == DevicePlatform.Android ? "http://192.168.47.187:5026" : "http://192.168.47.187:5026");
-            #else
-                client = new HttpClient();
+                client.BaseAddress = new Uri(DeviceInfo.Platform == DevicePlatform.Android ? "http://192.168.144.187:5026" : "http://192.168.144.187:5026");
+#else
+            client = new HttpClient();
                 client.BaseAddress = new Uri("http://apps.emetsoft.com:91/HRA_APIv3/");
             #endif
 

@@ -1,12 +1,7 @@
-
-
 using HR_Attendance_MAUI.Model;
 using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Networking;
 using Newtonsoft.Json;
-
-
-
 //using ObjCRuntime;
 using System;
 using System.Globalization;
@@ -27,10 +22,10 @@ using Microsoft.Maui.Controls;
 
 namespace HR_Attendance_MAUI;
 
-[QueryProperty(nameof(EmpLoginInfo), "EmpLoginInfo")]
+//[QueryProperty(nameof(EmpLoginInfo), "EmpLoginInfo")]
 public partial class Home_Page : ContentPage
 {
-    LoginInfo loginInfo;
+    //LoginInfo loginInfo;
     string username;
     string? lat;
     string? lon;
@@ -41,7 +36,7 @@ public partial class Home_Page : ContentPage
 
     LocationService location = new LocationService();
 
-    public LoginInfo EmpLoginInfo
+   /* public LoginInfo EmpLoginInfo
     {
         get => loginInfo;
         set
@@ -50,14 +45,14 @@ public partial class Home_Page : ContentPage
             //OnPropertyChanged();
             ShowMessage(value);
         }
-    }
+    }*/
 
 
 
     public Home_Page()
     {
         InitializeComponent();
-        BindingContext = this;
+        //BindingContext = this;
 
         logoutTimer = new System.Timers.Timer(300000);
 
@@ -66,13 +61,20 @@ public partial class Home_Page : ContentPage
         AppManager.LogoutTimer = logoutTimer;
     }
 
-    public async void ShowMessage(LoginInfo loginInfo)
+   
+    
+        
+        
+    
+    //public async void ShowMessage(LoginInfo loginInfo)
+    protected async override void OnAppearing()
     {
-      
+        base.OnAppearing();
+
         //Getting Location 
         var locationData = await location.GetCurrentLocation();
-        double? latitude = loginInfo.Latitude;
-        double? longitude = loginInfo.Longitude;
+        double latitude = locationData["Latitude"];
+        double longitude = locationData["Longitude"];
 
 
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
@@ -90,7 +92,9 @@ public partial class Home_Page : ContentPage
             latitudeLabel.Text = "Latitude is not available";
             longitudeLabel.Text = "Longitude is not available";
         }
-        username = loginInfo.Username;
+
+        username = await SecureStorage.GetAsync("username_key"); ;
+        string a = username;
        
 
 
@@ -124,15 +128,11 @@ public partial class Home_Page : ContentPage
             {
                 markInBtn.IsVisible = false;
                 markOutBtn.IsVisible = true;
-
-                // latOut = latitude.ToString();
-                // lonOut = longitude.ToString();
             }
             else
             {
                 markInBtn.IsVisible = false;
                 markOutBtn.IsVisible = false;
-
             }
 
         }
@@ -141,7 +141,6 @@ public partial class Home_Page : ContentPage
             markInBtn.IsEnabled = true;
             markInBtn.IsVisible = true;
             markOutBtn.IsVisible = false;
-
         }
 
     }
@@ -203,16 +202,15 @@ public partial class Home_Page : ContentPage
         currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
 
         string formattedTime = ModifyText(formattedTime1);
-        //string currentDate = currentTime.ToString();
+     
         string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
         string remarks = remarksEntry.Text;
         if (remarks == null)
         {
             remarks = "";
         }
         markOutBtn.IsEnabled = false;
-        //var locationData = await location.GetCurrentLocation();
-
 
         var attendanceData = new AttendanceData
         {
@@ -313,7 +311,6 @@ public partial class Home_Page : ContentPage
             empAttendanceData.inTime = InTime;
             empAttendanceData.outTimeDate = OutTimeDate;
             empAttendanceData.outTime = OutTime;
-            //empAttendanceData.employee_ID = Employee_ID;
             empAttendanceData.employee_ID = GetId();
             empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
             empAttendanceData.latIn = LatIn;
@@ -341,58 +338,6 @@ public partial class Home_Page : ContentPage
         var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
 
-
-        /*var networkAccess = Connectivity.NetworkAccess;
-
-        if (networkAccess == NetworkAccess.Internet)
-        {
-
-            HttpClient client;
-            client = HttpClientFactory.CreateHttpClient();
-
-            string requestUrl = $"api/Attendance?employeeId={employeeId}&currentDate={currentDate}";
-
-            var response = await client.GetAsync(requestUrl);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string attendanceDataJson = await response.Content.ReadAsStringAsync();
-
-
-                var attendanceData = System.Text.Json.JsonSerializer.Deserialize<AttendanceData>(attendanceDataJson);
-
-                return attendanceData;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        else
-        {
-            AttendanceData empAttendanceData = new AttendanceData();
-            if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
-            {
-                empAttendanceData = _attendanceDatabaseService.GetAttendanceByDate(currentDate);
-            }
-            else
-            {
-                empAttendanceData = _attendanceDatabaseService.GetTodayAttendnaceOffline(currentDate);
-            }
-
-
-            // AttendanceData attendanceData =
-            if (empAttendanceData != null)
-            {
-                return empAttendanceData;
-            }
-            else
-            {
-                return null;
-            }
-
-        }*/
-
         AttendanceData empAttendanceData = new AttendanceData();
         if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
         {
@@ -404,7 +349,6 @@ public partial class Home_Page : ContentPage
         }
 
 
-        // AttendanceData attendanceData =
         if (empAttendanceData != null)
         {
             return empAttendanceData;
@@ -416,57 +360,7 @@ public partial class Home_Page : ContentPage
 
     }
 
-    private async Task<bool> SyncAttendanceData()
-    {
-
-        var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
-        _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
-        List<AttendanceData> attenadanceDataList = _attendanceDatabaseService.GetAllAttendances();
-
-        foreach (AttendanceData attendanceData in attenadanceDataList)
-        {
-            string inTimeDate = attendanceData.inTimeDate;
-            string inTimeDate1 = attendanceData.inTime;
-            string inTimeDate2 = attendanceData.lonOut;
-            string inTimeDate3 = attendanceData.latOut;
-        }
-
-        DateTimeOffset currentTime1 = DateTimeOffset.Now;
-        DateTime currentTime = currentTime1.DateTime;
-        //string formattedTime1 = currentTime.ToString("HH:mm");
-        currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
-        string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
-        HttpClient client;
-        try
-        {
-            client = HttpClientFactory.CreateHttpClient();
-
-            var response = await client.PostAsJsonAsync("api/Attendance/StoreList", attenadanceDataList);
-
-            if (response.IsSuccessStatusCode)
-            {
-                //_attendanceDatabaseService.DeleteAllExceptCurrentDate(currentDate);
-                _attendanceDatabaseService.StoreTodaysRecordsAndDeleteAll(currentDate);
-
-
-                return true;
-
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", ex.Message, "OK");
-            return false;
-        }
-
-
-
-    }
+   
 
     private void OnLogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
     {

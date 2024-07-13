@@ -28,14 +28,9 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
         {
 
         }
-        /*public AndroidBackgroundService(ILogger<AndroidBackgroundService> logger)
-        {
-            _logger = logger;
-        }*/
 
         public override IBinder OnBind(Intent intent)
         {
-            //return null;
             throw new NotImplementedException();
         }
 
@@ -70,6 +65,15 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
             {
                 while (IsForegroundServiceRunning)
                 {
+
+                    var dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "AttendanceDB.db3");
+                    _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
+                    List<AttendanceData> attenadanceDataList = _attendanceDatabaseService.GetAllAttendances();
+
+                    if (attenadanceDataList.Count == 0)
+                    {
+                        Stop();
+                    }
                     var networkAccess = Connectivity.NetworkAccess;
                     if (networkAccess == NetworkAccess.Internet)
                     {

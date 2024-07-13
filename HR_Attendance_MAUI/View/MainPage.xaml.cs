@@ -39,8 +39,8 @@ namespace HR_Attendance_MAUI
             }
             //UsernameEntry.IsVisible = false;
             //PasswordEntry.IsVisible = false;
-            LoginBtn.IsVisible = false;
-            LoginBtnOffline.IsVisible = true;
+           // LoginBtn.IsVisible = false;
+           // LoginBtnOffline.IsVisible = true;
         }
         public MainPage(IFingerprint fingerprint)
         {
@@ -49,16 +49,16 @@ namespace HR_Attendance_MAUI
 
         }
 
-        private async void OnOfflineLoginButtonClicked(object sender, EventArgs e) {
+        private async void OnLoginOfflineButtonClicked(object sender, EventArgs e) {
 
-            //var request = new AuthenticationRequestConfiguration("Validate that you have fingers", "Because without them you will not be able to access");
+            
 
 
-            LocationService location = new LocationService();
+           /* LocationService location = new LocationService();
             var locationData = await location.GetCurrentLocation();
             double latitude = locationData["Latitude"];
-            double longitude = locationData["Longitude"];
-            //var result = await fingerprint.AuthenticateAsync(request);
+            double longitude = locationData["Longitude"];*/
+      
             var request = new AuthenticationRequestConfiguration
 ("Login using biometrics", "Confirm login with your biometrics")
             {
@@ -70,19 +70,20 @@ namespace HR_Attendance_MAUI
 
             if (result.Authenticated)
             {
-                LoginInfo loginInfo = new LoginInfo
+                /*LoginInfo loginInfo = new LoginInfo
                 {
                     Username = "Offline",
                     Longitude = latitude,
                     Latitude = longitude
-                };
+                };*/
 
-                var navigationParameter = new ShellNavigationQueryParameters
+                /*var navigationParameter = new ShellNavigationQueryParameters
                         {
                             { "EmpLoginInfo", loginInfo }
-                        };
+                        };*/
                 AppManager.IsLoggedIn = true;
-                await Shell.Current.GoToAsync("//Home_Page", navigationParameter);
+                //await Shell.Current.GoToAsync("//Home_Page", navigationParameter);
+                await Shell.Current.GoToAsync("//Home_Page");
             }
             else {
                 await DisplayAlert("Error", "Invalid Login", "OK");
@@ -100,19 +101,22 @@ namespace HR_Attendance_MAUI
 
             if (isAuthenticated)
             {
-                LoginInfo loginInfo = new LoginInfo
+                /*LoginInfo loginInfo = new LoginInfo
                 {
                     Username = username,
                     Longitude = 0,
                     Latitude = 0
-                };
+                };*/
+                string username_key = "username_key";
+                await SecureStorage.SetAsync(username_key, username);
 
-                var navigationParameter = new ShellNavigationQueryParameters
+                /*var navigationParameter = new ShellNavigationQueryParameters
                         {
                             { "EmpLoginInfo", loginInfo }
-                        };
+                        };*/
                 AppManager.IsLoggedIn = true;
-                await Shell.Current.GoToAsync("//Home_Page", navigationParameter);
+                //await Shell.Current.GoToAsync("//Home_Page", navigationParameter);
+                await Shell.Current.GoToAsync("//Home_Page");
             }
             else
             {
