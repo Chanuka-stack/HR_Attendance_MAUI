@@ -32,11 +32,13 @@ public partial class Home_Page : ContentPage
 {
     LoginInfo loginInfo;
     string username;
-    private System.Timers.Timer logoutTimer;
     string? lat;
     string? lon;
 
+    private System.Timers.Timer logoutTimer;
+   
     private AttendanceDatabaseService2 _attendanceDatabaseService;
+
     LocationService location = new LocationService();
 
     public LoginInfo EmpLoginInfo
@@ -58,6 +60,7 @@ public partial class Home_Page : ContentPage
         BindingContext = this;
 
         logoutTimer = new System.Timers.Timer(300000);
+
         logoutTimer.Start();
         logoutTimer.Elapsed += OnLogoutTimerElapsed;
         AppManager.LogoutTimer = logoutTimer;
@@ -65,10 +68,9 @@ public partial class Home_Page : ContentPage
 
     public async void ShowMessage(LoginInfo loginInfo)
     {
-        //LocationService location = new LocationService();
+      
+        //Getting Location 
         var locationData = await location.GetCurrentLocation();
-        //double? latitude = locationData["Latitude"];
-        //double? longitude = locationData["Longitude"];
         double? latitude = loginInfo.Latitude;
         double? longitude = loginInfo.Longitude;
 
@@ -89,26 +91,7 @@ public partial class Home_Page : ContentPage
             longitudeLabel.Text = "Longitude is not available";
         }
         username = loginInfo.Username;
-        /*var networkAccess = Connectivity.NetworkAccess;
-
-        if (networkAccess == NetworkAccess.Internet)
-        {
-            int count = _attendanceDatabaseService.GetTotalAttendanceCount();
-            if (count != 0)
-            {
-                bool isSynced = await SyncAttendanceData();
-
-                if (isSynced)
-                {
-                    await DisplayAlert("Success", "Data is Synced Successfully", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Error", "Failed to Sync Data", "OK");
-                }
-            }
-
-        }*/
+       
 
 
         AttendanceData attendanceData = await GetAttendanceData();
@@ -168,11 +151,10 @@ public partial class Home_Page : ContentPage
         DateTime currentTime = currentTime1.DateTime;
         string formattedTime1 = currentTime.ToString("HH:mm");
         currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
-        //string currentDate = currentTime.ToString("yyyy-MM-dd");
-        string formattedTime = ModifyText(formattedTime1);
-        //string currentDate = currentTime.ToString();
+
         string currentDate = currentTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        //currentDate = currentDate + ".000";
+        string formattedTime = ModifyText(formattedTime1);
+      
         string remarks = remarksEntry.Text;
 
         if (remarks == null)
@@ -242,8 +224,6 @@ public partial class Home_Page : ContentPage
             empAttendenceDescription = remarks,
             latIn = lat,
             lonIn = lon,
-            //latOut = locationData["Latitude"].ToString(),
-            //lonOut = locationData["Longitude"].ToString()
             latOut = lat,
             lonOut = lon
         };
@@ -280,7 +260,7 @@ public partial class Home_Page : ContentPage
         string LonOut = attendanceData.lonOut;
         string LatOut = attendanceData.latOut;
 
-        /*var networkAccess = Connectivity.NetworkAccess;
+        var networkAccess = Connectivity.NetworkAccess;
         if (networkAccess == NetworkAccess.Internet)
         {
 
@@ -302,8 +282,8 @@ public partial class Home_Page : ContentPage
                 empAttendanceData.outTime = OutTime;
                 empAttendanceData.employee_ID = Employee_ID;
                 empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
-                empAttendanceData.latIn = latIn;
-                empAttendanceData.lonIn = lonIn;
+                empAttendanceData.latIn = LatIn;
+                empAttendanceData.lonIn = LonIn;
                 empAttendanceData.latOut = LatOut;
                 empAttendanceData.lonOut = LonOut;
 
@@ -336,51 +316,14 @@ public partial class Home_Page : ContentPage
             //empAttendanceData.employee_ID = Employee_ID;
             empAttendanceData.employee_ID = GetId();
             empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
-            empAttendanceData.latIn = latIn;
-            empAttendanceData.lonIn = lonIn;
-            empAttendanceData.latOut = LatIn;
-            empAttendanceData.lonOut = LatOut;
+            empAttendanceData.latIn = LatIn;
+            empAttendanceData.lonIn = LonIn;
+            empAttendanceData.latOut = LatOut;
+            empAttendanceData.lonOut = LonOut;
 
-
-
-            //if (OutTime == null || OutTime == "")
-            //{         
-            //    _attendanceDatabaseService.InsertAttendance(empAttendanceData);
-            //}
-            //else
-            //{
-            //    _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
-            //}
             _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
             return true;
-        }*/
-
-        AttendanceData empAttendanceData = new AttendanceData();
-
-        empAttendanceData.inTimeDate = InTimeDate;
-        empAttendanceData.inTime = InTime;
-        empAttendanceData.outTimeDate = OutTimeDate;
-        empAttendanceData.outTime = OutTime;
-        //empAttendanceData.employee_ID = Employee_ID;
-        empAttendanceData.employee_ID = GetId();
-        empAttendanceData.empAttendenceDescription = EmpAttendenceDescription;
-        empAttendanceData.latIn = LatIn;
-        empAttendanceData.lonIn = LonIn;
-        empAttendanceData.latOut = LatOut;
-        empAttendanceData.lonOut = LonOut;
-
-
-
-        /*if (OutTime == null || OutTime == "")
-        {
-            _attendanceDatabaseService.InsertAttendance(empAttendanceData);
         }
-        else
-        {
-            _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
-        }*/
-        _attendanceDatabaseService.UpdateAttendanceByDateOffline(empAttendanceData);
-        return true;
 
     }
 
@@ -541,7 +484,6 @@ public partial class Home_Page : ContentPage
 #elif IOS
         return UIKit.UIDevice.CurrentDevice.IdentifierForVendor.ToString();
 #else
-        // Handle other platforms if needed
         return null;
 #endif
     }

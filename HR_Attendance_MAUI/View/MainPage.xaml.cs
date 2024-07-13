@@ -22,7 +22,7 @@ namespace HR_Attendance_MAUI
         {
             base.OnAppearing();
 
-            /*var networkAccess = Connectivity.NetworkAccess;
+            var networkAccess = Connectivity.NetworkAccess;
             if (networkAccess == NetworkAccess.Internet) {
                 UsernameEntry.Text = string.Empty;
                 PasswordEntry.Text = string.Empty;
@@ -36,11 +36,11 @@ namespace HR_Attendance_MAUI
                 PasswordEntry.IsVisible = false;
                 LoginBtn.IsVisible = false;
                 LoginBtnOffline.IsVisible = true;
-            }*/
-            UsernameEntry.IsVisible = false;
-            PasswordEntry.IsVisible = false;
-            //LoginBtn.IsVisible = false;
-            //LoginBtnOffline.IsVisible = true;
+            }
+            //UsernameEntry.IsVisible = false;
+            //PasswordEntry.IsVisible = false;
+            LoginBtn.IsVisible = false;
+            LoginBtnOffline.IsVisible = true;
         }
         public MainPage(IFingerprint fingerprint)
         {
@@ -49,7 +49,7 @@ namespace HR_Attendance_MAUI
 
         }
 
-        private async void OnLoginButtonClicked(object sender, EventArgs e) {
+        private async void OnOfflineLoginButtonClicked(object sender, EventArgs e) {
 
             //var request = new AuthenticationRequestConfiguration("Validate that you have fingers", "Because without them you will not be able to access");
 
@@ -89,7 +89,8 @@ namespace HR_Attendance_MAUI
             }
             
         }
-        /*private async void OnLoginButtonClicked(object sender, EventArgs e)
+        
+        private async void OnLoginButtonClicked(object sender, EventArgs e)
         {
             string username = UsernameEntry.Text;
             string password = PasswordEntry.Text;
@@ -117,7 +118,7 @@ namespace HR_Attendance_MAUI
             {
                 await DisplayAlert("Error", "Invalid username or password", "OK");
             }
-        }*/
+        }
 
         private async Task<bool> AuthenticateUserAsync(string username, string password)
         {
