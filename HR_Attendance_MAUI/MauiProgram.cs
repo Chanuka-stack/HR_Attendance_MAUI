@@ -6,10 +6,11 @@ using Plugin.Maui.Biometric;
 using HR_Attendance_MAUI.Services;
 
 #if ANDROID
-using HR_Attendance_MAUI.Platforms.Android.Services; 
+using HR_Attendance_MAUI.Platforms.Android.Services;
 #elif IOS
 using HR_Attendance_MAUI.Platforms.iOS; 
 #endif
+
 
 namespace HR_Attendance_MAUI
 {
@@ -37,7 +38,7 @@ namespace HR_Attendance_MAUI
 #elif IOS
             builder.Services.AddSingleton<IBackgroundService, iOSBackgroundService>();
 #endif
-            
+
             return builder.Build();
         }
     }
