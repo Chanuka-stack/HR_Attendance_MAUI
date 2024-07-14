@@ -138,6 +138,8 @@ public partial class Home_Page : ContentPage
         }
         else
         {
+            markOutLabel.Text = "";
+            markInLabel.Text = "";
             markInBtn.IsEnabled = true;
             markInBtn.IsVisible = true;
             markOutBtn.IsVisible = false;
