@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using UIKit;
 using HR_Attendance_MAUI.Services;
-
+using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
+using Microsoft.Maui.Controls;
 
 namespace HR_Attendance_MAUI
 {
@@ -12,18 +14,24 @@ namespace HR_Attendance_MAUI
         private NSTimer fetchTimer;
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-        //Added
+
+        // Ensure the correct method signature for FinishedLaunching
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-            return true;
+            return base.FinishedLaunching(application, launchOptions);
         }
 
-       /* public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+        // PerformFetch method to handle background fetch
+        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
-            var backgroundService = MauiApplication.Current.Services.GetService<IBackgroundService>();
-            backgroundService?.Start();
-            completionHandler(UIBackgroundFetchResult.NewData);
-        }*/
+            var backgroundService = DependencyService.Get<IBackgroundService>();
+
+            Task.Run(async () =>
+            {
+                backgroundService.Start();
+                completionHandler(UIBackgroundFetchResult.NewData);
+            });
+        }
     }
 }

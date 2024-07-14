@@ -31,15 +31,22 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Need your face to unlock!</string>
 
+	<key>NSAppTransportSecurity</key>    
+	<dict>
+    	<key>NSAllowsLocalNetworking</key>
+    	<true/>
+	</dict>
+
+	<key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+    </array>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>TemporaryFullAccuracyUsageDescription</key>
+		<string>Fill in a reason why your app needs full accuracy</string>
+	</dict>
 </dict>
-<key>NSLocationTemporaryUsageDescriptionDictionary</key>
-<dict>
-  <key>TemporaryFullAccuracyUsageDescription</key>
-  <string>Fill in a reason why your app needs full accuracy</string>
-</dict>
-<key>NSAppTransportSecurity</key>    
-<dict>
-    <key>NSAllowsLocalNetworking</key>
-    <true/>
-</dict>
+
+
 </plist>
