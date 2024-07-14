@@ -87,46 +87,64 @@ namespace HR_Attendance_MAUI.Data
         public void StoreTodaysRecordsAndDeleteAll(string currentDate)
         {
 
-            var record = _db.Table<AttendanceData>()
-                                  .FirstOrDefault(a => a.inTimeDate == currentDate);
+            //var record = _db.Table<AttendanceData>()
+            //                      .FirstOrDefault(a => a.inTimeDate == currentDate);
 
-            var existingRecord = _db.Table<TodaySyncedAttendance>()
-                                   .FirstOrDefault(a => a.inTimeDate == currentDate);
+            //var existingRecord = _db.Table<TodaySyncedAttendance>()
+            //                       .FirstOrDefault(a => a.inTimeDate == currentDate);
 
-            if (existingRecord != null)
-            {
-                var todaysAttendance = new TodaySyncedAttendance
-                {
 
-                    outTimeDate = record.outTimeDate,
-                    outTime = record.outTime,
-                    employee_ID = record.employee_ID,
-                    empAttendenceDescription = record.empAttendenceDescription,
-                    latOut =record.latOut,
-                    lonOut = record.lonOut
-                };
-                _db.Update(todaysAttendance);
-            }
-            else
-            {
-                var todaysAttendance = new TodaySyncedAttendance
-                {
-                    inTimeDate = record.inTimeDate,
-                    inTime = record.inTime,
-                    outTimeDate = record.outTimeDate,
-                    outTime = record.outTime,
-                    employee_ID = record.employee_ID,
-                    empAttendenceDescription = record.empAttendenceDescription,
-                    latIn = record.latIn,
-                    lonIn = record.lonIn,
-                    latOut = record.latOut,
-                    lonOut = record.lonOut
-                };
-                _db.Insert(todaysAttendance);
-            }
+            //string outTime = record.outTime;
+            //if (existingRecord != null)
+            //{
+            //    /*var todaysAttendance = new TodaySyncedAttendance
+            //    {
+
+            //        outTimeDate = record.outTimeDate,
+            //        outTime = record.outTime,
+            //        employee_ID = record.employee_ID,
+            //        empAttendenceDescription = record.empAttendenceDescription,
+            //        latOut =record.latOut,
+            //        lonOut = record.lonOut
+            //    };
+            //    _db.Update(todaysAttendance);*/
+            //    existingRecord.outTimeDate = record.outTimeDate;
+            //    existingRecord.outTime = record.outTime;
+            //    existingRecord.employee_ID = record.employee_ID;
+            //    existingRecord.empAttendenceDescription = record.empAttendenceDescription;
+            //    existingRecord.latOut = record.latOut;
+            //    existingRecord.lonOut = record.lonOut;
+
+            //    _db.Update(existingRecord);
+            //}
+            //else
+            //{
+            //    var todaysAttendance = new TodaySyncedAttendance
+            //    {
+            //        inTimeDate = record.inTimeDate,
+            //        inTime = record.inTime,
+            //        outTimeDate = record.outTimeDate,
+            //        outTime = record.outTime,
+            //        employee_ID = record.employee_ID,
+            //        empAttendenceDescription = record.empAttendenceDescription,
+            //        latIn = record.latIn,
+            //        lonIn = record.lonIn,
+            //        latOut = record.latOut,
+            //        lonOut = record.lonOut
+            //    };
+            //    _db.Insert(todaysAttendance);
+            //}
 
 
             _db.DeleteAll<AttendanceData>();
+
+            /*int attendanceDataCount = _db.Table<AttendanceData>().Count();
+            int todaysSyncedAttendanceCount = _db.Table<TodaySyncedAttendance>().Count();
+
+            var todaysRecord = _db.Table<TodaySyncedAttendance>()
+    .FirstOrDefault();
+
+            string a = todaysRecord.outTime;*/
         }
 
         public AttendanceData GetTodayAttendnaceOffline(string currentDate)
@@ -189,6 +207,53 @@ namespace HR_Attendance_MAUI.Data
             {
                 _db.Insert(attendanceData);
             }
+
+            var existingRecord = _db.Table<TodaySyncedAttendance>()
+                                   .FirstOrDefault(a => a.inTimeDate == attendanceData.inTimeDate);
+
+
+            
+            if (existingRecord != null)
+            {
+                /*var todaysAttendance = new TodaySyncedAttendance
+                {
+
+                    outTimeDate = record.outTimeDate,
+                    outTime = record.outTime,
+                    employee_ID = record.employee_ID,
+                    empAttendenceDescription = record.empAttendenceDescription,
+                    latOut =record.latOut,
+                    lonOut = record.lonOut
+                };
+                _db.Update(todaysAttendance);*/
+                existingRecord.outTimeDate = attendanceData.outTimeDate;
+                existingRecord.outTime = attendanceData.outTime;
+                existingRecord.employee_ID = attendanceData.employee_ID;
+                existingRecord.empAttendenceDescription = attendanceData.empAttendenceDescription;
+                existingRecord.latOut = attendanceData.latOut;
+                existingRecord.lonOut = attendanceData.lonOut;
+
+                _db.Update(existingRecord);
+            }
+            else
+            {
+                var todaysAttendance = new TodaySyncedAttendance
+                {
+                    inTimeDate = attendanceData.inTimeDate,
+                    inTime = attendanceData.inTime,
+                    outTimeDate = attendanceData.outTimeDate,
+                    outTime = attendanceData.outTime,
+                    employee_ID = attendanceData.employee_ID,
+                    empAttendenceDescription = attendanceData.empAttendenceDescription,
+                    latIn = attendanceData.latIn,
+                    lonIn = attendanceData.lonIn,
+                    latOut = attendanceData.latOut,
+                    lonOut = attendanceData.lonOut
+                };
+                _db.Insert(todaysAttendance);
+            }
+
+
         }
         public void InsertTodaySyncedAttendance(TodaySyncedAttendance attendance)
         {
@@ -197,9 +262,11 @@ namespace HR_Attendance_MAUI.Data
 
         public void UpdateSyncedAttendanceByDateOffline(TodaySyncedAttendance attendanceData)
         {
-            var recordToUpdate = _db.Table<TodaySyncedAttendance>()
-                .FirstOrDefault(a => a.inTimeDate == attendanceData.inTimeDate && a.employee_ID == attendanceData.employee_ID);
+            //var recordToUpdate = _db.Table<TodaySyncedAttendance>()
+                //.FirstOrDefault(a => a.inTimeDate == attendanceData.inTimeDate && a.employee_ID == attendanceData.employee_ID);
 
+            var recordToUpdate = _db.Table<TodaySyncedAttendance>()
+                .FirstOrDefault(a => a.inTimeDate == attendanceData.inTimeDate);
 
             if (recordToUpdate != null)
             {

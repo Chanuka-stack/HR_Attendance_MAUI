@@ -339,14 +339,16 @@ public partial class Home_Page : ContentPage
         _attendanceDatabaseService = new AttendanceDatabaseService2(dbPath);
 
         AttendanceData empAttendanceData = new AttendanceData();
-        if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
+        /*if (_attendanceDatabaseService.GetAttendanceByDate(currentDate) != null)
         {
             empAttendanceData = _attendanceDatabaseService.GetAttendanceByDate(currentDate);
         }
         else
         {
             empAttendanceData = _attendanceDatabaseService.GetTodayAttendnaceOffline(currentDate);
-        }
+        }*/
+
+        empAttendanceData = _attendanceDatabaseService.GetTodayAttendnaceOffline(currentDate);
 
 
         if (empAttendanceData != null)

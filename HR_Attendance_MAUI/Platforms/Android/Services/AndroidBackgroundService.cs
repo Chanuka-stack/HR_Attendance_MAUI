@@ -73,6 +73,7 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
                     if (attenadanceDataList.Count == 0)
                     {
                         Stop();
+                       
                     }
                     var networkAccess = Connectivity.NetworkAccess;
                     if (networkAccess == NetworkAccess.Internet)
@@ -141,7 +142,7 @@ namespace HR_Attendance_MAUI.Platforms.Android.Services
             foreach (AttendanceData attendanceData in attenadanceDataList)
             {
                 string inTimeDate = attendanceData.inTimeDate;
-                string inTimeDate1 = attendanceData.inTime;
+                string inTimeDate1 = attendanceData.outTime;
                 string inTimeDate2 = attendanceData.lonOut;
                 string inTimeDate3 = attendanceData.latOut;
             }
