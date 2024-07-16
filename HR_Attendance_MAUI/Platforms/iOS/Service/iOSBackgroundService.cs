@@ -10,10 +10,10 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.IO;
 using Microsoft.Maui.Controls;
-using HR_Attendance_MAUI.Platforms.iOS.Services;
+using HR_Attendance_MAUI.Platforms.iOS.Service;
 
 [assembly: Dependency(typeof(iOSBackgroundService))]
-namespace HR_Attendance_MAUI.Platforms.iOS.Services
+namespace HR_Attendance_MAUI.Platforms.iOS.Service
 {
     [Register("iOSBackgroundService")]
     public class iOSBackgroundService : NSObject, IBackgroundService

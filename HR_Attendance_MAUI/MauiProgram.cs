@@ -8,7 +8,7 @@ using HR_Attendance_MAUI.Services;
 #if ANDROID
 using HR_Attendance_MAUI.Platforms.Android.Services;
 #elif IOS
-using HR_Attendance_MAUI.Platforms.iOS; 
+using HR_Attendance_MAUI.Platforms.iOS.Service; 
 #endif
 
 
